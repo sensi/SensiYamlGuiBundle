@@ -10,10 +10,10 @@
             "name": "Michael Ofner",
             "email": "michael@m3byte.com",
             "homepage": "http://www.m3byte.com"
-        },
+        }
     ],
     "require": {
-        "symfony/symfony": "2.3.*",
+        "symfony/symfony": "2.3.*"
     },
     "require-dev": {
         
