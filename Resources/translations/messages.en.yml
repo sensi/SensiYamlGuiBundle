@@ -1,0 +1,3 @@
+sensi.yamlgui.title.edit: 'Edit yaml file'
+sensi.yamlgui.flash.saved: 'The current loaded config file was successfully saved.'
+sensi.yamlgui.button.save: 'Save config'

@@ -1,0 +1,44 @@
+{% extends "SensiYamlGuiBundle::Default/layout.html.twig" %}
+
+{% block title %}
+	Edit YAML File: {{config_file}}
+{% endblock %}
+
+{% block notice %}
+	{% for notice_level in ['success','error','info', 'warning'] %}
+		{% set session_var = 'sonata_flash_' ~ notice_level %}
+		{% for flash in app.session.flashbag.get(session_var) %}
+			<div class="alert {{ 'alert-' ~ notice_level }}">
+				{{ flash|trans([], 'messages') }}
+			</div>
+		{% endfor %}
+	{% endfor %}
+{% endblock %}
+
+{% block header %}
+	<h1>{{ "sensi.yamlgui.title.edit"|trans([], 'messages') }} :: {{ config_file }}</h1>
+{% endblock %}
+
+{% block content %}
+	 <div class="sensi-yaml-gui-container">
+		<div class="sensi-yamlgui-form-errors">
+			{{ form_errors(form) }}
+		</div>
+		<form action="" method="POST">
+
+			{{ form_rest(form) }}
+
+			<div class="sensi-yamlgui-form-footer">
+				<p>
+					<button type="submit" class="sf-button">
+						<span class="border-l">
+							<span class="border-r">
+								<span class="btn-bg">{{ "sensi.yamlgui.button.save"|trans([], 'messages') }}</span>
+							</span>
+						</span>
+					</button>
+				</p>
+			</div>
+		</form>
+	</div>
+{% endblock %}

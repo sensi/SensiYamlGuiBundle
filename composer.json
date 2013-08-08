@@ -1,0 +1,33 @@
+{
+    "name": "sensi/sensi-yaml-gui-bundle",
+    "type": "symfony-bundle",
+    "description": "Simple symfony2 yaml gui which allows you to edit yaml config files in a simple webform.",
+    "keywords": ["yaml", "gui", "sensi", "sonata-admin extension"],
+    "homepage": "http://www.m3byte.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Ofner",
+            "email": "michael@m3byte.com",
+            "homepage": "http://www.m3byte.com"
+        },
+    ],
+    "require": {
+        "symfony/symfony": "2.3.*",
+    },
+    "require-dev": {
+        
+    },
+    "suggest": {
+        "sonata-project/admin-bundle": "2.2.x-dev"
+    },
+    "autoload": {
+        "psr-0": { "Sensi\\Bundle\\YamlGuiBundle\\": "" }
+    },
+    "target-dir": "Sensi//Bundle//YamlGuiBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}

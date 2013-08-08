@@ -1,0 +1,43 @@
+{% extends "SensiYamlGuiBundle::Default/layout.html.twig" %}
+
+{% block title %}
+	SensiYAMLGui :: List managed YAML files
+{% endblock %}
+
+{% block notice %}
+	{% for notice_level in ['success','error','info', 'warning'] %}
+		{% set session_var = 'sonata_flash_' ~ notice_level %}
+		{% for flash in app.session.flashbag.get(session_var) %}
+			<div class="alert {{ 'alert-' ~ notice_level }}">
+				{{ flash|trans([], 'messages') }}
+			</div>
+		{% endfor %}
+	{% endfor %}
+{% endblock %}
+
+{% block header %}
+	<h1>{{ "sensi.yamlgui.title.list"|trans([], 'messages') }}</h1>
+{% endblock %}
+
+{% block content %}
+	 <table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th colspan="3">Sensi Yaml GUI</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    	{% for key, item in managed_files %}
+    		<tr>
+    			<td class="sonata-ba-list-label">{{ item.title }}</td>
+    			<td>
+    				<a href="{{ path('sensi_yaml_gui_edit', {'config_file': key }) }}">
+    				{{ "sensi.yamlgui.action.edit"|trans([], 'messages') }}
+    				</a>
+    			</td>
+    		</tr>
+    	{% endfor %}
+    </tbody>
+</table>
+{% endblock %}

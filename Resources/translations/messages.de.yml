@@ -1,0 +1,3 @@
+sensi.yamlgui.title.edit: 'Bearbeiten der YAML Konfig'
+sensi.yamlgui.flash.saved: 'Die akutelle Konfiguration wurde erfolgreich gespeichert.'
+sensi.yamlgui.button.save: 'Speichern'
