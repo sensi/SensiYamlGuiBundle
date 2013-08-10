@@ -24,6 +24,7 @@ Enable the bundle in AppKernel:
     }
     
 Insert the routing file:
+
 	# app/config/routing.yml
     sensi_yaml_gui:
         resource: "@SensiYamlGuiBundle/Resources/config/routing.yml"
@@ -38,6 +39,7 @@ Create and modify the *app/config/yamlgui.yml and insert it into your app/config
 		sonata_admin_modus: true
 	
 		# Path where the managed yaml config files were located
+		# Notice you have to create the folder and make it writeable for the yamlgui writer
 		config_root_dir: "%kernel.root_dir%/config/yamlgui/"   
 	
 		# List of all files which were available throw the yamlgui. Must be located in 

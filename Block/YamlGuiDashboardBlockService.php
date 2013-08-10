@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Sensi Yaml GUI Bundle.
+ *
+ * (c) Michael Ofner <michael@m3byte.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Sensi\Bundle\YamlGuiBundle\Block;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -10,6 +18,12 @@ use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Block\BaseBlockService;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 
+/**
+ * This BlockService is required to use the bundle in SonataAdminBundle's Dashboard.
+ * A list of all managed files throw the yaml gui will be displayed in the dashboard.
+ *
+ * @author Michael Ofner <michael@m3byte.com>
+ */
 class YamlGuiDashboardBlockService extends BaseBlockService
 {
 
@@ -24,15 +38,7 @@ class YamlGuiDashboardBlockService extends BaseBlockService
     {
         return array('managed_files' => $this->managed_files);
     }
-
-    public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
-    {
-    }
-
-    public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
-    {
-    }
-
+    
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
         // merge settings
@@ -46,4 +52,13 @@ class YamlGuiDashboardBlockService extends BaseBlockService
     public function setManagedFiles(array $files) {
     	$this->managed_files = $files;
     }
+
+    public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
+    {
+    }
+
+    public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
+    {
+    }
+
 }

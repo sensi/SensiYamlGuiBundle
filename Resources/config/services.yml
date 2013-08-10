@@ -1,12 +1,19 @@
+#
+ # This file is part of the Sensi Yaml GUI Bundle.
+ #
+ # (c) Michael Ofner <michael@m3byte.com>
+ #
+ # For the full copyright and license information, please view the LICENSE
+ # file that was distributed with this source code.
+#
 parameters:
     sensi_yaml_gui.configurator.class: Sensi\Bundle\YamlGuiBundle\Configurator\Configurator
 
 services:
-#    sensi_yaml_gui.example:
-#        class: %sensi_yaml_gui.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
-
-
+    sensi_yaml_gui.configurator:
+      class: %sensi_yaml_gui.configurator.class%
+      arguments: [ %kernel.root_dir%, %sensi.yamlgui.config_root_dir% ]
+      
     sonata.block.service.sensi_yaml_gui:
       class: Sensi\Bundle\YamlGuiBundle\Block\YamlGuiDashboardBlockService
       arguments: [ "sonata.block.service.sensi_yaml_gui", @templating ]
@@ -14,7 +21,4 @@ services:
         - { name: sonata.block }
       calls:
         - [setManagedFiles, [%sensi.yamlgui.managed_files%]]
-    sensi_yaml_gui.configurator:
-      class: %sensi_yaml_gui.configurator.class%
-      arguments: [ %kernel.root_dir% ]
       

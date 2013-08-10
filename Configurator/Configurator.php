@@ -1,4 +1,13 @@
 <?php
+/*
+ * This file is part of the Sensi Yaml GUI Bundle.
+ *
+ * (c) Michael Ofner <michael@m3byte.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Sensi\Bundle\YamlGuiBundle\Configurator;
 use Symfony\Component\Yaml\Yaml;
 
@@ -12,10 +21,26 @@ class Configurator
     protected $filename;
     protected $parameters;
     protected $kernelDir;
+    protected $configDir;
 
-    public function __construct($kernelDir)
+    public function __construct($kernelDir, $configDir)
     {
-        $this->kernelDir = $kernelDir . "/config/yamlgui/";
+        $this->kernelDir = $kernelDir;
+        $this->configDir = $configDir;
+    }
+    
+    public function setFilename($name)
+    {
+    	if (file_exists($name)) {
+    		$this->filename = $name;
+    	} else {
+    		$this->filename = str_replace('//', '/', $this->kernelDir . '/'. $this->configDir . '/' . $name);
+    	}
+    }
+    
+    public function getFilename()
+    {
+    	return $this->filename;
     }
 
     public function isFileWritable()
@@ -30,20 +55,6 @@ class Configurator
         }
     }
     
-    public function setFilename($name)
-    {
-    	if (!file_exists($name)) {
-    		$this->filename = $this->kernelDir . $name;
-    	} else {
-    		$this->filename = $name;
-    	}
-    }
-    
-    public function getFilename()
-    {
-    	return $this->filename;
-    }
-
     /**
      * @return array
      */
@@ -61,8 +72,8 @@ class Configurator
     public function mergeParameters($parameters)
     {
     	foreach($parameters as $key => $value) {
-    		if (strpos($key, '_')) {
-    			$parentKey = explode('_', $key);
+    		if (strpos($key, '--')) {
+    			$parentKey = explode('--', $key);
     			if (isset($this->parameters[$parentKey[0]][$parentKey[1]])) {
     				$this->parameters[$parentKey[0]][$parentKey[1]] = $value;
     				unset($parameters[$key]);
@@ -91,9 +102,11 @@ class Configurator
      */
     public function write()
     {
-        $filename = $this->isFileWritable() ? $this->filename : $this->getCacheFilename();
-
-        return file_put_contents($filename, $this->render());
+        if (!$this->isFileWritable()) {
+        	throw new \Exception('The config file: '. $this->filename . ' is not writeable!');
+		}
+		
+        return file_put_contents($this->filename, $this->render());
     }
 
     /**
@@ -106,7 +119,7 @@ class Configurator
     {
         $filename = $this->filename;
         
-        if (!file_exists($this->filename)) {
+        if (!file_exists($filename)) {
         	throw new \InvalidArgumentException(sprintf('The %s file doesn\'t exists. Create the config file first to continue.', $filename));
         }
         

@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Sensi Yaml GUI Bundle.
+ *
+ * (c) Michael Ofner <michael@m3byte.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Sensi\Bundle\YamlGuiBundle\Configurator\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -14,25 +22,35 @@ class YamlConfigType extends AbstractType
     {
         $this->configurator = $configurator;
     }
-
+	
+	/**
+	 * Here the form get's generated from the loaded yaml config array.
+	 * Notice that at the moment only 2 levels were available.
+	 *
+	 * @param FormBuilderInterface $builder
+	 * @param array				   $options
+	 */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $configs = $this->configurator->read();
-        // Notice: Max. 2 levels were supported!
-        /* @todo: Implement better way to handle form types and 
+        // Notice: Max. 2 levels were supported! All deeper levels will be ignored.
+        /* @todo: 1. Implement better way to handle form types and 
          *   	  also the validation stuff and other form attributes.
+         *		  2. Implement custom ignored mechanism
          */
         foreach ($configs as $key => $item) {
         	// Handle second level
         	if (is_array($item)) {
         		foreach ($item as $subKey => $subItem) {
-        			// @todo: implement required attr or other form options
-        			$options = array('label'=> $key."_".$subKey, 'data' => $subItem);
-        			$builder->add($key."_".$subKey, $this->whatFormTypeFor($subItem), $options);
+        			// Ignore subItems with contains an array
+        			if (is_array($subItem)) {
+        				continue;
+        			}
+        			$options = array('label'=> strtoupper($key)."--".$subKey, 'data' => $subItem);
+        			$builder->add($key."--".$subKey, $this->whatFormTypeFor($subItem), $options);
         		}
         	} else {
         		// Handle first level
-        		// @todo: implement required attr or other form options
         		$options = array('label'=> $key, 'data' => $item);
         		$builder->add(str_replace('.', '_', $key), $this->whatFormTypeFor($item), $options);
         	}
@@ -53,6 +71,7 @@ class YamlConfigType extends AbstractType
      */
     protected function whatFormTypeFor($value) {
     	$type = 'text';
+    	
     	if (is_string($value)) {
     		$type = 'text';
     	} elseif (is_numeric($value)) {
@@ -62,6 +81,7 @@ class YamlConfigType extends AbstractType
     	} elseif (is_bool($value)) {
     		$type = 'checkbox';
     	}
+    	
     	return $type;
     }
 }
