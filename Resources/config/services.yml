@@ -20,5 +20,4 @@ services:
       tags:
         - { name: sonata.block }
       calls:
-        - [setManagedFiles, [%sensi.yamlgui.managed_files%]]
-      
+        - [setManagedFiles, [%sensi.yamlgui.managed_files%]]      

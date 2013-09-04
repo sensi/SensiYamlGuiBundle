@@ -16,8 +16,14 @@ use Sensi\Bundle\YamlGuiBundle\Configurator\Configurator;
 
 class YamlConfigType extends AbstractType
 {
+	/**
+	 * @var Sensi\Bundle\YamlGuiBundle\Configurator\Configurator $configurator
+	 */
 	protected $configurator;
-
+	
+	/**
+	 * @param Configurator $configurator
+	 */
     public function __construct(Configurator $configurator)
     {
         $this->configurator = $configurator;
@@ -39,28 +45,35 @@ class YamlConfigType extends AbstractType
          *		  2. Implement custom ignored mechanism
          */
         foreach ($configs as $key => $item) {
-        	// Handle second level
-        	if (is_array($item)) {
+        	if (!is_array($item)) {
+        		// Handle first level
+        		$options = array('label'=> $key, 'data' => $item, 'translation_domain' => 'sensi_yaml_gui');
+        		$builder->add(str_replace('.', '_', $key), $this->whatFormTypeFor($item), $options);
+        	} else {
+        		// Handle second level
         		foreach ($item as $subKey => $subItem) {
         			// Ignore subItems with contains an array
         			if (is_array($subItem)) {
         				continue;
         			}
-        			$options = array('label'=> strtoupper($key)."--".$subKey, 'data' => $subItem);
+        			$options = array('label'=> strtoupper($key)."--".$subKey,
+        							 'data' => $subItem,
+        							 'translation_domain' => 'sensi_yaml_gui'
+        							);
         			$builder->add($key."--".$subKey, $this->whatFormTypeFor($subItem), $options);
         		}
-        	} else {
-        		// Handle first level
-        		$options = array('label'=> $key, 'data' => $item);
-        		$builder->add(str_replace('.', '_', $key), $this->whatFormTypeFor($item), $options);
+        		
         	}
         }
         ;
     }
 
+	/**
+	 * {@inhiredoc}
+	 */
     public function getName()
     {
-        return 'sensi_yamlgui';
+        return 'sensi_yaml_gui';
     }
     
     /**

@@ -17,14 +17,14 @@
 		{% set session_var = 'sonata_flash_' ~ notice_level %}
 		{% for flash in app.session.flashbag.get(session_var) %}
 			<div class="alert {{ 'alert-' ~ notice_level }}">
-				{{ flash|trans([], 'messages') }}
+				{{ flash|trans([], 'sensi_yaml_gui') }}
 			</div>
 		{% endfor %}
 	{% endfor %}
 {% endblock %}
 
 {% block content %}
-	 <h1>{{ "sensi.yamlgui.title.edit"|trans([], 'messages') }} :: {{ config_file }}</h1>
+	 <h1>{{ "sensi.yamlgui.title.edit"|trans([], 'sensi_yaml_gui') }} :: {{ config_file }}</h1>
 	 <div class="sensi-yaml-gui-container">
         <div class="sensi-yamlgui-form-errors">
             {{ form_errors(form) }}
@@ -38,7 +38,7 @@
                     <button type="submit" class="sf-button">
                         <span class="border-l">
                             <span class="border-r">
-                                <span class="btn-bg">{{ "sensi.yamlgui.button.save"|trans([], 'messages') }}</span>
+                                <span class="btn-bg">{{ "sensi.yamlgui.button.save"|trans([], 'sensi_yaml_gui') }}</span>
                             </span>
                         </span>
                     </button>

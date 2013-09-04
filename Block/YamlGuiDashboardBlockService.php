@@ -36,7 +36,7 @@ class YamlGuiDashboardBlockService extends BaseBlockService
 
     public function getDefaultSettings()
     {
-        return array('managed_files' => $this->managed_files);
+        return array('managed_files' => $this->managed_files, 'translation_domain'=> 'sensi_yaml_gui');
     }
     
     public function execute(BlockContextInterface $blockContext, Response $response = null)

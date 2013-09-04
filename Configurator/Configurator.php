@@ -18,17 +18,44 @@ use Symfony\Component\Yaml\Yaml;
  */
 class Configurator
 {
+    /**
+     * Absolute path tho yaml config file to read from. After calling read() the array  
+     * get's set to parameters property.
+     * @var string $filename
+     */
     protected $filename;
+    
+    /**
+     * Contains array of the given yaml config file after reading it.
+     * @var array $parameters
+     */
     protected $parameters;
+    
+    /**
+     * @var string $kernelDir
+     */
     protected $kernelDir;
+    
+    /**
+     * @var string $configDir
+     */
     protected $configDir;
-
+	
+	/**
+	 * @param string $kernelDir
+	 * @param string $configDir
+	 */
     public function __construct($kernelDir, $configDir)
     {
         $this->kernelDir = $kernelDir;
         $this->configDir = $configDir;
     }
     
+    /**
+     * Set absolute file path of the yaml config file
+     *
+     * @param strin $name
+     */
     public function setFilename($name)
     {
     	if (file_exists($name)) {
@@ -38,23 +65,23 @@ class Configurator
     	}
     }
     
+    /**
+     * @return string
+     */
     public function getFilename()
     {
     	return $this->filename;
     }
-
+	
+	/**
+	 * Checks if the file is writeable throw the application
+	 * @void
+	 */
     public function isFileWritable()
     {
         return is_writable($this->filename);
     }
 
-    public function clean()
-    {
-        if (file_exists($this->getCacheFilename())) {
-            @unlink($this->getCacheFilename());
-        }
-    }
-    
     /**
      * @return array
      */
@@ -83,7 +110,6 @@ class Configurator
     	
         $this->parameters = array_merge($this->parameters, $parameters);
     }
-
 
     /**
      * Renders parameters as a string.

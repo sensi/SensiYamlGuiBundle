@@ -54,3 +54,11 @@ Add yamlgui.yml:
     
 Finally create your yml config file and add them under managed_files. After that,
 the files are editable by calling following path in your browser: /yamlgui/list or /yamlgui/edit/{file_name}
+
+## Translations
+
+If you wana translate your config key labels to a human readable name you can create a 
+translation file in *app/Resources/translations/sensi_yaml_gui.<language_key>.yml*. This file can
+extends the original translation file with your custom translations.
+
+

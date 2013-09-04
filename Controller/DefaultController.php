@@ -55,8 +55,6 @@ class DefaultController extends Controller
                 $configurator->mergeParameters($form->getData());
                 $configurator->write();
                 $this->addFlashMessage('sonata_flash_success', 'sensi.yamlgui.flash.saved');
-                
-                //return new RedirectResponse($this->container->get('router')->generate('_configurator_final'));
             }
         }
     	
