@@ -16,61 +16,61 @@ use Sensi\Bundle\YamlGuiBundle\Configurator\Configurator;
 
 class YamlConfigType extends AbstractType
 {
-	/**
-	 * @var Sensi\Bundle\YamlGuiBundle\Configurator\Configurator $configurator
-	 */
-	protected $configurator;
-	
-	/**
-	 * @param Configurator $configurator
-	 */
+    /**
+     * @var Sensi\Bundle\YamlGuiBundle\Configurator\Configurator $configurator
+     */
+    protected $configurator;
+    
+    /**
+     * @param Configurator $configurator
+     */
     public function __construct(Configurator $configurator)
     {
         $this->configurator = $configurator;
     }
-	
-	/**
-	 * Here the form get's generated from the loaded yaml config array.
-	 * Notice that at the moment only 2 levels were available.
-	 *
-	 * @param FormBuilderInterface $builder
-	 * @param array				   $options
-	 */
+    
+    /**
+     * Here the form get's generated from the loaded yaml config array.
+     * Notice that at the moment only 2 levels were available.
+     *
+     * @param FormBuilderInterface $builder
+     * @param array                $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $configs = $this->configurator->read();
         // Notice: Max. 2 levels were supported! All deeper levels will be ignored.
         /* @todo: 1. Implement better way to handle form types and 
-         *   	  also the validation stuff and other form attributes.
-         *		  2. Implement custom ignored mechanism
+         *        also the validation stuff and other form attributes.
+         *        2. Implement custom ignored mechanism
          */
         foreach ($configs as $key => $item) {
-        	if (!is_array($item)) {
-        		// Handle first level
-        		$options = array('label'=> $key, 'data' => $item, 'translation_domain' => 'sensi_yaml_gui');
-        		$builder->add(str_replace('.', '_', $key), $this->whatFormTypeFor($item), $options);
-        	} else {
-        		// Handle second level
-        		foreach ($item as $subKey => $subItem) {
-        			// Ignore subItems with contains an array
-        			if (is_array($subItem)) {
-        				continue;
-        			}
-        			$options = array('label'=> strtoupper($key)."--".$subKey,
-        							 'data' => $subItem,
-        							 'translation_domain' => 'sensi_yaml_gui'
-        							);
-        			$builder->add($key."--".$subKey, $this->whatFormTypeFor($subItem), $options);
-        		}
-        		
-        	}
+            if (!is_array($item)) {
+                // Handle first level
+                $options = array('label'=> $key, 'data' => $item, 'translation_domain' => 'sensi_yaml_gui');
+                $builder->add(str_replace('.', '_', $key), $this->whatFormTypeFor($item), $options);
+            } else {
+                // Handle second level
+                foreach ($item as $subKey => $subItem) {
+                    // Ignore subItems with contains an array
+                    if (is_array($subItem)) {
+                        continue;
+                    }
+                    $options = array('label'=> strtoupper($key)."--".$subKey,
+                                     'data' => $subItem,
+                                     'translation_domain' => 'sensi_yaml_gui'
+                                    );
+                    $builder->add($key."--".$subKey, $this->whatFormTypeFor($subItem), $options);
+                }
+                
+            }
         }
         ;
     }
 
-	/**
-	 * {@inhiredoc}
-	 */
+    /**
+     * {@inhiredoc}
+     */
     public function getName()
     {
         return 'sensi_yaml_gui';
@@ -83,18 +83,18 @@ class YamlConfigType extends AbstractType
      * @return string Selected form type. Default is 'text' if nothing else found.
      */
     protected function whatFormTypeFor($value) {
-    	$type = 'text';
-    	
-    	if (is_string($value)) {
-    		$type = 'text';
-    	} elseif (is_numeric($value)) {
-    		$type = 'text';
-    	} elseif (is_float($value) || is_double($value)) {
-    		$type = 'float';
-    	} elseif (is_bool($value)) {
-    		$type = 'checkbox';
-    	}
-    	
-    	return $type;
+        $type = 'text';
+        
+        if (is_string($value)) {
+            $type = 'text';
+        } elseif (is_numeric($value)) {
+            $type = 'text';
+        } elseif (is_float($value) || is_double($value)) {
+            $type = 'float';
+        } elseif (is_bool($value)) {
+            $type = 'checkbox';
+        }
+        
+        return $type;
     }
 }
