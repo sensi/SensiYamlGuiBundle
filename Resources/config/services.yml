@@ -12,7 +12,7 @@ parameters:
 services:
     sensi_yaml_gui.configurator:
       class: %sensi_yaml_gui.configurator.class%
-      arguments: [ %kernel.root_dir%, %sensi.yamlgui.config_root_dir% ]
+      arguments: [ %sensi.yamlgui.config_root_dir% ]
       
     sonata.block.service.sensi_yaml_gui:
       class: Sensi\Bundle\YamlGuiBundle\Block\YamlGuiDashboardBlockService
