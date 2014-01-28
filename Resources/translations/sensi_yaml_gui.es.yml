@@ -1,0 +1,5 @@
+sensi.yamlgui.title.edit: 'Editar archivo yaml'
+sensi.yamlgui.title.list: 'Lista configuración YAML'
+sensi.yamlgui.flash.saved: 'El fichero cargado ha sido guardado correctamente'
+sensi.yamlgui.button.save: 'Guardar configuración'
+sensi.yamlgui.action.edit: 'Editar'
