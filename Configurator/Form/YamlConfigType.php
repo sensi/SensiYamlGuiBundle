@@ -39,33 +39,39 @@ class YamlConfigType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $configs = $this->configurator->read();
-        // Notice: Max. 2 levels were supported! All deeper levels will be ignored.
+
         /* @todo: 1. Implement better way to handle form types and 
          *        also the validation stuff and other form attributes.
          *        2. Implement custom ignored mechanism
          */
-        foreach ($configs as $key => $item) {
-            if (!is_array($item)) {
-                // Handle first level
-                $options = array('label'=> $key, 'data' => $item, 'translation_domain' => 'sensi_yaml_gui');
-                $builder->add(str_replace('.', '_', $key), $this->whatFormTypeFor($item), $options);
+        $this->handleLevelsRecursive($builder, $configs);
+    }
+
+    protected function handleLevelsRecursive(FormBuilderInterface $builder, $item, $key = NULL)
+    {
+        $separator = Configurator::LEVEL_SEPARATOR;
+
+        foreach ($item as $subKey => $subItem) {
+
+            if(isset($key)){
+                $label = str_replace('.', '_', $key . $separator . $subKey);
             } else {
-                // Handle second level
-                foreach ($item as $subKey => $subItem) {
-                    // Ignore subItems with contains an array
-                    if (is_array($subItem)) {
-                        continue;
-                    }
-                    $options = array('label'=> strtoupper($key)."--".$subKey,
-                                     'data' => $subItem,
-                                     'translation_domain' => 'sensi_yaml_gui'
-                                    );
-                    $builder->add($key."--".$subKey, $this->whatFormTypeFor($subItem), $options);
-                }
-                
+                $label = str_replace('.', '_', $subKey);
+            }
+
+            if (is_array($subItem)) {
+
+                $this->handleLevelsRecursive($builder, $subItem, $label);
+            } else {
+                $options = array(
+                    'label'=> $label,
+                    'data' => $subItem,
+                    'translation_domain' => 'sensi_yaml_gui'
+                );
+
+                $builder->add($label, $this->whatFormTypeFor($subItem), $options);
             }
         }
-        ;
     }
 
     /**

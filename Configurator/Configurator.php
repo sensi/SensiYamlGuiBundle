@@ -35,6 +35,8 @@ class Configurator
      * @var string $configDir
      */
     protected $configDir;
+
+    const LEVEL_SEPARATOR = '--';
 	
 	/**
 	 * @param string $configDir
