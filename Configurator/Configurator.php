@@ -32,22 +32,17 @@ class Configurator
     protected $parameters;
     
     /**
-     * @var string $kernelDir
-     */
-    protected $kernelDir;
-    
-    /**
      * @var string $configDir
      */
     protected $configDir;
+
+    const LEVEL_SEPARATOR = '--';
 	
 	/**
-	 * @param string $kernelDir
 	 * @param string $configDir
 	 */
-    public function __construct($kernelDir, $configDir)
+    public function __construct($configDir)
     {
-        $this->kernelDir = $kernelDir;
         $this->configDir = $configDir;
     }
     
@@ -58,11 +53,11 @@ class Configurator
      */
     public function setFilename($name)
     {
-    	if (file_exists($name)) {
-    		$this->filename = $name;
-    	} else {
-    		$this->filename = str_replace('//', '/', $this->kernelDir . '/'. $this->configDir . '/' . $name);
-    	}
+        if (file_exists($name)) {
+            $this->filename = $name;
+        } else {
+            $this->filename = str_replace('//', '/', $this->configDir . '/' . $name);
+        }
     }
     
     /**
