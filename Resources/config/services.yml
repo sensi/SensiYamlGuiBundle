@@ -8,6 +8,7 @@
 #
 parameters:
     sensi_yaml_gui.configurator.class: Sensi\Bundle\YamlGuiBundle\Configurator\Configurator
+    sensi_yaml_gui.file_updated_subscriber.class: Sensi\Bundle\YamlGuiBundle\Event\Subscriber\FileUpdatedSubscriber
 
 services:
     sensi_yaml_gui.configurator:
@@ -20,4 +21,10 @@ services:
       tags:
         - { name: sonata.block }
       calls:
-        - [setManagedFiles, [%sensi.yamlgui.managed_files%]]      
+        - [setManagedFiles, [%sensi.yamlgui.managed_files%]]
+
+    sensi_yaml_gui.file_updated_subscriber:
+      class: %sensi_yaml_gui.file_updated_subscriber.class%
+      arguments: [@session]
+      tags:
+        - { name: kernel.event_subscriber }
