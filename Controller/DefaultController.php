@@ -61,13 +61,13 @@ class DefaultController extends Controller
         if($this->container->getParameter('sensi.yamlgui.sonata_admin_modus')) {
             return $this->render('SensiYamlGuiBundle:Sonata:gui.html.twig', array(
                 'form'    => $form->createView(),
-                'config_file' => $configFile,
+                'configFile' => $configFile,
             ));
         }
         
         return $this->render('SensiYamlGuiBundle:Default:gui.html.twig', array(
             'form' => $form->createView(),
-            'config_file' => $configFile,
+            'configFile' => $configFile,
         ));
     }
 
