@@ -1,5 +1,5 @@
 sensi_yaml_gui_edit:
-    pattern: /edit/{config_file}
+    pattern: /edit/{configFile}
     defaults: { _controller: SensiYamlGuiBundle:Default:edit }
     
 sensi_yaml_gui_list:

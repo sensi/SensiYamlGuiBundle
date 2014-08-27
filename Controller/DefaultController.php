@@ -9,8 +9,8 @@
  */
 namespace Sensi\Bundle\YamlGuiBundle\Controller;
 
+use Sensi\Bundle\YamlGuiBundle\Event\YamlFileUpdatedEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 use Sensi\Bundle\YamlGuiBundle\Configurator\Form\YamlConfigType;
@@ -37,15 +37,14 @@ class DefaultController extends Controller
         return $this->render('SensiYamlGuiBundle:Default:list.html.twig', array('managed_files' => $this->container->getParameter('sensi.yamlgui.managed_files')));
     }
     
-    public function editAction($config_file)
+    public function editAction($configFile)
     {
-        if (!key_exists($config_file, $this->container->getParameter('sensi.yamlgui.managed_files')))
-        {
-            throw new \InvalidArgumentException('The file ' . $config_file . ' is not managed by sensi yaml gui.');
+        if (!array_key_exists($configFile, $this->container->getParameter('sensi.yamlgui.managed_files'))) {
+            throw new \InvalidArgumentException('The file ' . $configFile . ' is not managed by sensi yaml gui.');
         }
         
         $configurator = $this->container->get('sensi_yaml_gui.configurator');
-        $configurator->setFilename($config_file);
+        $configurator->setFilename($configFile);
         
         $form = $this->container->get('form.factory')->create(new YamlConfigType($configurator));
 
@@ -55,24 +54,28 @@ class DefaultController extends Controller
             if ($form->isValid()) {
                 $configurator->mergeParameters($form->getData());
                 $configurator->write();
-                $this->addFlashMessage('sonata_flash_success', 'sensi.yamlgui.flash.saved');
+                $this->getEventDispatcher()->dispatch('sensi.file_updated', new YamlFileUpdatedEvent($configFile));
             }
         }
         
         if($this->container->getParameter('sensi.yamlgui.sonata_admin_modus')) {
             return $this->render('SensiYamlGuiBundle:Sonata:gui.html.twig', array(
                 'form'    => $form->createView(),
-                'config_file' => $config_file,
+                'config_file' => $configFile,
             ));
         }
         
         return $this->render('SensiYamlGuiBundle:Default:gui.html.twig', array(
             'form' => $form->createView(),
-            'config_file' => $config_file,
+            'config_file' => $configFile,
         ));
     }
-    
-    protected function addFlashMessage($type, $message) {
-        $this->container->get('session')->getFlashBag()->add($type, $message);
+
+    /**
+     * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface
+     */
+    protected function getEventDispatcher()
+    {
+        return $this->container->get('event_dispatcher');
     }
 }
