@@ -51,6 +51,27 @@ Add yamlgui.yml:
 
     # app/config/config.yml 
     - { resource: yamlgui.yml }
+
+(Optional) Configure the dashboard block service for Sonata Admin:
+
+    # app/config/config.yml
+    sonata_block:
+        blocks:
+            sonata.block.service.sensi_yaml_gui:
+                contexts: [admin]
+   
+    sonata_admin:
+        templates:
+            layout: SonataAdminBundle::layout.html.twig
+        dashboard:
+            blocks:
+                -
+                    position: left
+                    type: sonata.admin.block.admin_list
+                -
+                    position: right
+                    type: sonata.block.service.sensi_yaml_gui
+        
     
 Finally create your yml config file and add them under managed_files. After that,
 the files are editable by calling following path in your browser: /yamlgui/list or /yamlgui/edit/{file_name}
