@@ -30,6 +30,14 @@
             {{ form_errors(form) }}
         </div>
         <form action="" method="POST">
+            <table class="table striped">
+                {% for child in form.children if child != form._token %}
+                    <tr>
+                        <td>{{ form_label(child) }}</td>
+                        <td>{{ form_widget(child) }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
 
             {{ form_rest(form) }}
 
