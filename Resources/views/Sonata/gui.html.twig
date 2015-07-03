@@ -9,7 +9,7 @@
 {% extends base_template %}
 
 {% block title %}
-	SensiYamlGui :: {{ configFile }}
+	{{ 'sensi.yamlgui.yamlgui'|trans([], 'sensi_yaml_gui') }} :: {{ configFile|trans([], 'sensi_yaml_gui') }}
 {% endblock %}
 
 {% block notice %}
