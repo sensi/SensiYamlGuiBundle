@@ -24,7 +24,7 @@
 {% endblock %}
 
 {% block content %}
-	 <h1>{{ "sensi.yamlgui.title.edit"|trans([], 'sensi_yaml_gui') }} :: {{ configFile }}</h1>
+	 <h1>{{ "sensi.yamlgui.title.edit"|trans([], 'sensi_yaml_gui') }} :: {{ configFile|trans([], 'sensi_yaml_gui') }}</h1>
 	 <div class="sensi-yaml-gui-container">
         <div class="sensi-yamlgui-form-errors">
             {{ form_errors(form) }}
