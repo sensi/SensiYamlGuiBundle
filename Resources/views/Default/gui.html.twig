@@ -9,7 +9,7 @@
 {% extends "SensiYamlGuiBundle::Default/layout.html.twig" %}
 
 {% block title %}
-	Edit YAML File: {{config_file}}
+	Edit YAML File: {{configFile}}
 {% endblock %}
 
 {% block notice %}
@@ -24,7 +24,7 @@
 {% endblock %}
 
 {% block header %}
-	<h1>{{ "sensi.yamlgui.title.edit"|trans([], 'messages') }} :: {{ config_file }}</h1>
+	<h1>{{ "sensi.yamlgui.title.edit"|trans([], 'messages') }} :: {{ configFile }}</h1>
 {% endblock %}
 
 {% block content %}

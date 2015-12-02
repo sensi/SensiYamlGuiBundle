@@ -20,7 +20,7 @@ class YamlConfigType extends AbstractType
      * @var Sensi\Bundle\YamlGuiBundle\Configurator\Configurator $configurator
      */
     protected $configurator;
-    
+
     /**
      * @param Configurator $configurator
      */
@@ -28,7 +28,7 @@ class YamlConfigType extends AbstractType
     {
         $this->configurator = $configurator;
     }
-    
+
     /**
      * Here the form get's generated from the loaded yaml config array.
      * Notice that at the moment only 2 levels were available.
@@ -40,7 +40,7 @@ class YamlConfigType extends AbstractType
     {
         $configs = $this->configurator->read();
 
-        /* @todo: 1. Implement better way to handle form types and 
+        /* @todo: 1. Implement better way to handle form types and
          *        also the validation stuff and other form attributes.
          *        2. Implement custom ignored mechanism
          */
@@ -66,7 +66,8 @@ class YamlConfigType extends AbstractType
                 $options = array(
                     'label'=> $label,
                     'data' => $subItem,
-                    'translation_domain' => 'sensi_yaml_gui'
+                    'translation_domain' => 'sensi_yaml_gui',
+                    'required' => false
                 );
 
                 $builder->add($label, $this->whatFormTypeFor($subItem), $options);
@@ -81,16 +82,16 @@ class YamlConfigType extends AbstractType
     {
         return 'sensi_yaml_gui';
     }
-    
+
     /**
      * Try to get the form type from given value.
      *
-     * @param string $value 
+     * @param string $value
      * @return string Selected form type. Default is 'text' if nothing else found.
      */
     protected function whatFormTypeFor($value) {
         $type = 'text';
-        
+
         if (is_string($value)) {
             $type = 'text';
         } elseif (is_numeric($value)) {
@@ -100,7 +101,7 @@ class YamlConfigType extends AbstractType
         } elseif (is_bool($value)) {
             $type = 'checkbox';
         }
-        
+
         return $type;
     }
 }

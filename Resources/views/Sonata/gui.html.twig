@@ -9,7 +9,7 @@
 {% extends base_template %}
 
 {% block title %}
-	SensiYamlGui :: {{ config_file }}
+	{{ 'sensi.yamlgui.yamlgui'|trans([], 'sensi_yaml_gui') }} :: {{ configFile|trans([], 'sensi_yaml_gui') }}
 {% endblock %}
 
 {% block notice %}
@@ -24,12 +24,20 @@
 {% endblock %}
 
 {% block content %}
-	 <h1>{{ "sensi.yamlgui.title.edit"|trans([], 'sensi_yaml_gui') }} :: {{ config_file }}</h1>
+	 <h1>{{ "sensi.yamlgui.title.edit"|trans([], 'sensi_yaml_gui') }} :: {{ configFile|trans([], 'sensi_yaml_gui') }}</h1>
 	 <div class="sensi-yaml-gui-container">
         <div class="sensi-yamlgui-form-errors">
             {{ form_errors(form) }}
         </div>
         <form action="" method="POST">
+            <table class="table striped">
+                {% for child in form.children if child != form._token %}
+                    <tr>
+                        <td>{{ form_label(child) }}</td>
+                        <td>{{ form_widget(child) }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
 
             {{ form_rest(form) }}
 
